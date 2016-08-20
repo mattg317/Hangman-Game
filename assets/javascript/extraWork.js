@@ -58,3 +58,13 @@
 // // 			turns++
 // // 		}
 // // }
+
+
+
+// back up board
+// var board = compChoice.length;
+// var dash = "";
+
+// for(var i=0; i<board;i++){
+// 	dash=dash+ "_ ";
+// }

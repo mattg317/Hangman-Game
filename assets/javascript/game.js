@@ -1,23 +1,31 @@
-var wordLib = ["cat", "dog", "horse"];
-var dash = "_";
+var wordLib = ["cat", "dog", "horse", "bees"];
+var compLib ={
+	list: ["fish","camels", "chimps"]
+}
+
 
 var compChoice = wordLib[Math.round(Math.random() * (wordLib.length-1))];
 var split = compChoice.split("")
-
 console.log(split);
 
 
-for(var i =0, n=compChoice.length; i<n; i++){
- 	console.log("_");
- }
+// Board set-up=================================================
+var board = [];
+for(var i=0, n=compChoice.length; i<n; i++){
+	board.push('_ ');
+}
 
 
+var html = "<p>"+ board + "</p>";
+document.querySelector('#board').innerHTML = html;
+
+//just a test delete after==========================================
 var html = "<p>x</p>";
-document.querySelector('#word').innerHTML = html;
+document.querySelector('#guess').innerHTML = html;
 
 
 console.log(compChoice);
-
+//==================================================================================
 var turns = 0;
 var correct = 0;
 var incorrect= 5;
@@ -33,14 +41,24 @@ document.onkeyup = function() {
 		//check to see if letter is in word
 		if(guesses.indexOf(userGuess)>-1){
 		}
+
 		else{
 			if(compChoice.indexOf(userGuess)>-1){
 				guesses.push(userGuess);
 				correct ++;
 				turns ++;
-			// 	for(var q=0, x=compChoice[i].length; i<x; i++){
- 		// 			if(userGuess=== compChoice.charAt(q)){
+
+				for(var i=0, n=split.length;i<n; i++){
+					if(userGuess === split[i]){
+						board[i]=userGuess;
+					}
+					else{
+						i++;
+					}
+
+				}
 			}
+				}
 			else{
 				guesses.push(userGuess);
 				incorrect --;
@@ -83,8 +101,14 @@ document.onkeyup = function() {
 					document.querySelector('#score').innerHTML = html;
 		}
 	}
+	
 	else{
 		alert("You lost")
+	}
+
+
+	if(board === split){
+		alert("you won");
 	}
 }
 
