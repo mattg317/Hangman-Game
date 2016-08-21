@@ -13,12 +13,12 @@ var board = [];
 for(var i=0, n=compChoice.length; i<n; i++){
 	board.push('_ ');
 }
-
+// board=board.join("");
 
 var html = "<p>"+ board + "</p>";
 document.querySelector('#board').innerHTML = html;
 
-//==============
+//Check for winner Function=======================================
 function endGame (arr1, arr2){
 	for(var i=0, n=board.length; i<n; i++){
 		if(arr1[i] !== arr2[i]){
@@ -38,7 +38,7 @@ document.onkeyup = function() {
 
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 		console.log(userGuess)
-	
+	console.log(board);
 	//if the letter has been guess do nothing
 	if(guesses.indexOf(userGuess)>-1){
 	}
@@ -52,6 +52,7 @@ document.onkeyup = function() {
 				for(var i=0, n=split.length;i<n; i++){
 					if(userGuess === split[i]){
 						board[i]=userGuess;
+						console.log(board);
 						var html = "<p>"+ board + "</p>";
 						document.querySelector('#board').innerHTML = html;
 					}
@@ -61,6 +62,9 @@ document.onkeyup = function() {
 				guesses.push(userGuess);
 				incorrect --;
 				turns ++;
+				if(incorrect < 1){
+					alert("You lost!");
+				}
 			}
 		var html = "<p> Score </p>" +
 
@@ -76,7 +80,12 @@ document.onkeyup = function() {
 			document.querySelector('#score').innerHTML = html;
 
 			if(endGame(board, split)===true){
-			alert("You Win");
+				var html = "<p>You Win!</p>"+"<p>Press again key to play again!</p>";
+				document.querySelector('.winner').innerHTML = html;
+				document.onkeyup = function() {
+				location.reload(true);
+				}
+
 			}
 		}
 }
