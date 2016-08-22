@@ -4,8 +4,8 @@ body{
 
 .jumbotron{
 	text-align: center;
-	background-image: url("../images/west3.jpg");
-	color: white;
+	color: black;
+	background-image: url("../images/niceBG.jpg");
 }
 
 #board{
@@ -13,7 +13,10 @@ body{
 	font-size: 50px;
 }
 
-h1, h2{
+h1, h2, h3{
+	text-align: center;
+}
+p{
 	text-align: center;
 }
 
@@ -22,3 +25,8 @@ h1, h2{
 }
 
 
+footer{
+	text-align: center;
+	padding: 30px;
+	border:solid 1px black;
+}

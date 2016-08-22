@@ -1,7 +1,6 @@
 var wordLib = ["cat", "dog", "horse", "bees"];
-var compLib ={
-	list: ["fish","camels", "chimps"]
-}
+
+
 
 
 var compChoice = wordLib[Math.round(Math.random() * (wordLib.length-1))];
@@ -11,22 +10,21 @@ console.log("split: "+split.length);
 console.log("cL:" +compChoice.length)
 
 // Board set-up=================================================
-var board = [];
+var gameBoard = [];
 for(var i=0, n=compChoice.length; i<n; i++){
-	board.push('_ ');
+	gameBoard.push('_ ');
 }
-console.log("StartHere: "+board+" " + board.length);
-// board=board.join("");
-console.log("Start: "+board);
-console.log(board.length);
+//one board plays one board displays
+var viewBoard=gameBoard.join("");
+console.log(viewBoard);
 
-var html = "<p>"+ board + "</p>";
+var html = "<p>"+ viewBoard + "</p>";
 document.querySelector('#board').innerHTML = html;
 
 //Check for winner Function=======================================
 function endGame (arr1, arr2){
 	arr1=arr1
-	for(var i=0, n=board.length; i<n; i++){
+	for(var i=0, n=arr1.length; i<n; i++){
 		if(arr1[i] !== arr2[i]){
 			return false;
 		}
@@ -61,18 +59,22 @@ function imageChange(incor){
 				document.querySelector('#hang').innerHTML = html;
 			break;
 		case 1:
-			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman8.png'"+" alt="+"hangman9"+">";
+			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman8.png'"+" alt="+"hangman8"+">";
 				document.querySelector('#hang').innerHTML = html;
 			break;
 		default:
-			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman9.png'"+" alt="+"hangman9"+">";
+			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman9.png'"+" alt="+"hangman9"+">"+
+			"<p>Sorry you lost :(</p>" + "<p>Hit any key to play again!</p>";
 				document.querySelector('#hang').innerHTML = html;
+				var html = "<p >"+ split + "</p>";
+				document.querySelector('#board').innerHTML = html;
+				document.onkeyup = function() {
+						location.reload(true);
+					};
 	}
 }
 
 // Main game==================================================
-var turns = 0;
-var correct = 0;
 var incorrect= 8;
 var guesses = [];
 
@@ -80,25 +82,24 @@ document.onkeyup = function() {
 
 	var userGuess = String.fromCharCode(event.keyCode).toLowerCase();
 	console.log("Guess: " +userGuess)
-	console.log("After Guess: "+board);
-	//if the letter has been guess do nothing
+
+	//if the letter has been guessed do nothing
 	if(guesses.indexOf(userGuess)>-1){
 	}
 	//otherwise go to town
 	else{
 			if(compChoice.indexOf(userGuess)>-1){
 				guesses.push(userGuess);
-				correct ++;
-				turns ++;
 				//check to see where in the arryay the guess is and replace board
 				for(var i=0, n=split.length;i<n; i++){
 					if(userGuess === split[i]){
-						// board=board.split(" ");
-						console.log("BCorrect: "+board +board.length);
-						board[i]=userGuess;
-						// board= board.join(" ");
-						console.log("ACorrect: "+board + board.length);
-						var html = "<p>"+ board + "</p>";
+						viewBoard=viewBoard.split(" ");
+						viewBoard[i]=userGuess;
+						//loaded display in viewable board
+						gameBoard[i]=userGuess;
+						viewBoard=viewBoard.join(" ");
+						console.log(gameBoard);
+						var html = "<p>"+ viewBoard + "</p>";
 						document.querySelector('#board').innerHTML = html;
 					}
 				}
@@ -106,20 +107,20 @@ document.onkeyup = function() {
 			else{
 				guesses.push(userGuess);
 				incorrect --;
-				turns ++;
 				imageChange(incorrect);
-				if(incorrect < 1){ //display you lost an show answer
-					var html = "<p>Sorry you lost :(</p>"+"<p>Press again key to play again!</p>";
-					document.querySelector('.winner').innerHTML = html;
+				// if(incorrect < 1){ //display you lost an show answer
+				// 	var html = "<p>Sorry you lost :(</p>"+"<p>Press again key to play again!</p>";
+				// 	document.querySelector('.winner').innerHTML = html;
 					
-					var html = "<p>"+ split + "</p>";
-					document.querySelector('#board').innerHTML = html;
+				// 	var html = "<p >"+ split + "</p>";
+				// 	document.querySelector('#board').innerHTML = html;
 
-						document.onkeyup = function() {
-						location.reload(true);
-						}
-				}
+				// 		document.onkeyup = function() {
+				// 		location.reload(true);
+				// 		}
+				//}
 			}
+
 		var html =		"<div class="+"'panel panel-default'"+">"+
 						  "<div class="+"'panel-heading'"+">"+"Chances Left</div>"+
 						  "<div class="+"'panel-body'"+">"+
@@ -136,9 +137,12 @@ document.onkeyup = function() {
 
 			document.querySelector('#score').innerHTML = html;
 
-			if(endGame(board, split)===true){
-				var html = "<p>You Win!</p>"+"<p>Press again key to play again!</p>";
-				document.querySelector('.winner').innerHTML = html;
+			if(endGame(gameBoard, split)===true){
+				var html = "<h3>Congrats!</h3>"+
+				"<img class="+"'center-block' " + "src="+"'assets/images/big_winner.jpg'" + "alt="+"'hangman1'>"+
+				"<p>Press any key to play again!</p>";
+				document.querySelector('#hang').innerHTML = html;
+
 				document.onkeyup = function() {
 				location.reload(true);
 				}
