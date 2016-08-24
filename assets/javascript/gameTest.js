@@ -82,8 +82,11 @@ function imageChange(incor){
 			break;
 		default:
 			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman9.png'"+" alt="+"hangman9"+">"+
-			"<p>Sorry you lost :(</p>" + "<p>Hit any key to play again!</p>";
+			"<p>Sorry you lost :(</p>" + "<p>Hit Enter to play again!</p>";
 			document.querySelector('#hang').innerHTML = html;
+			
+			var html = "<p>Answer: "+ compChoice + "</p>";
+			document.querySelector('#board').innerHTML = html;
 
 			
 		}
@@ -221,9 +224,9 @@ document.onkeyup = function() {
 			gameSetup();
 
 			if(endGame(gameBoard, split)===true){
-				var html = "<h3>Congrats!</h3>"+
+				var html = "<h3>Congrats! You win!</h3>"+
 				"<img class="+"'center-block' " + "src="+"'assets/images/big_winner.jpg'" + "alt="+"'hangman1'>"+
-				"<p>Press any key to play again!</p>";
+				"<p>Press Enter to play again!</p>";
 				document.querySelector('#hang').innerHTML = html;
 				console.log(wins);
 				var html= "<p>Wins: "+wins+"</p>"+

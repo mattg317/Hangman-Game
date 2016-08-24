@@ -9,6 +9,9 @@ body{
 	background: url(../images/zooBG.jpg);
 	background-size: 100% 100%;
 }
+#record{
+	font-size: 30px;
+}
 
 #board{
 	text-align: center;
