@@ -7,10 +7,11 @@ var turns = 0;
 var correct = 0;
 var incorrect= 5;
 var guesses = [];
+var gameBoard= [];
+var	viewBoard=[];
 
 var hangman={
-	gameBoard: [],
-	viewBoard:[],
+	wins:0,
 	gameSetup: function(){
 		var html = "<p> Score </p>" +
 
@@ -28,12 +29,12 @@ var hangman={
 
 	boardSetup: function(){
 		for(var i=0, n=compChoice.length; i<n; i++){
-			this.gameBoard.push('_ ');
+			gameBoard.push('_ ');
 		}
-		this.viewBoard=this.gameBoard.join("");
-		console.log(this.viewBoard);
+		viewBoard=gameBoard.join("");
+		console.log(viewBoard);
 
-		var html = "<p>"+ this.viewBoard + "</p>";
+		var html = "<p>"+ viewBoard + "</p>";
 		document.querySelector('#board').innerHTML = html;
 
 		this.gameSetup();
@@ -49,32 +50,10 @@ var hangman={
 		
 		},
 	
-	newGame: function(){
-		// for(var i=0, n=compChoice.length; i<n; i++){
-		// 	this.gameBoard.push('_ ');
-		// }
-		// this.viewBoard=this.gameBoard.join("")
-		this.boardSetup();
-
-		var html = "<p>"+ this.viewBoard + "</p>";
-		document.querySelector('#board').innerHTML = html;
-	
-
-		"<p> correct: " + correct +"</p>"
-		+
-		"<p> incorrect: "+ incorrect +"</p>"
-		+
-
-		"<p>turns: " +turns +"</p>"
-		+
-		"<p>guesses: "+guesses+"</p>";
-
-		document.querySelector('#score').innerHTML = html;
-
-			var html = "<p></p>";
-				document.querySelector('.winner').innerHTML = html;
-
-		},
+	// newGame: function(){
+	// 	this.gameSetup();
+	// 	this.boardSetup();
+	// 	},
 
 	
 	playGame: function(){
@@ -93,12 +72,12 @@ var hangman={
 				//check to see where in the arryay the guess is and replace board
 				for(var i=0, n=split.length;i<n; i++){
 					if(userGuess === split[i]){
-						this.viewBoard=this.viewBoard.split(" ");
-						this.viewBoard[i]=userGuess;
-						this.gameBoard[i]=userGuess;
-						this.viewBoard=this.viewBoard.join(" ");
-						console.log(this.gameBoard);
-						var html = "<p>"+ this.viewBoard + "</p>";
+						viewBoard=viewBoard.split(" ");
+						viewBoard[i]=userGuess;
+						gameBoard[i]=userGuess;
+						viewBoard=viewBoard.join(" ");
+						console.log(gameBoard);
+						var html = "<p>"+ viewBoard + "</p>";
 						document.querySelector('#board').innerHTML = html;
 					}
 				}
@@ -109,14 +88,12 @@ var hangman={
 				turns ++;
 				if(incorrect < 1){
 					alert("You lost!");
-					document.onkeyup=function(){
-					location.reload();
-				}
+					this.newGame();
 				}
 			}
-			this.gameSetup();
+			// this.gameSetup();
 
-			if(this.endGame(this.gameBoard, split)===true){
+			if(this.endGame(gameBoard, split)===true){
 				var html = "<p>You Win!</p>"+"<p>Press again key to play again!</p>";
 				document.querySelector('.winner').innerHTML = html;
 				wins++;
@@ -124,13 +101,15 @@ var hangman={
 				var html= "<p>Wins:"+wins+"<p>";
 				document.querySelector('#record').innerHTML = html;
 				document.onkeyup=function(){
-					location.reload();
-				}
+				this.boardSetup();
+				this.playGame();
+			}
 			}
 		}
 
-	}
+	},
 
+	
 
 };//end of object
 

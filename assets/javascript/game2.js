@@ -4,7 +4,7 @@ var wordLib = ["cat", "dog", "horse", "bees"];
 
 
 var compChoice = wordLib[Math.round(Math.random() * (wordLib.length-1))];
-var split = compChoice.split("")
+var split = compChoice.split("");
 console.log(split);
 console.log("split: "+split.length);
 console.log("cL:" +compChoice.length)

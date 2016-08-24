@@ -1,9 +1,9 @@
-// var wordLib = ["cat", "dog", "horse", "bees"];
+var wordLib = ["cat", "dog", "horse", "bees"];
 var wins=0;
 var losses =0;
 var turns = 0;
 var correct = 0;
-var incorrect= 8;
+var incorrect= 9;
 var guesses = [];
 var contGame = false;
 
@@ -18,19 +18,16 @@ document.querySelector('#record').innerHTML = html;
 
 //Game board=========================================================================
 function gameSetup(){
-var html =		"<div class="+"'panel panel-default'"+">"+
-						  "<div class="+"'panel-heading'"+">"+"Chances Left</div>"+
-						  "<div class="+"'panel-body'"+">"+
-						    incorrect+
-						  "</div>"+
-						"</div>"
-							+
-						"<div class="+"'panel panel-default'"+">"+
-						  "<div class="+"'panel-heading'"+">"+"Letters Guessed</div>"+
-						  "<div class="+"'panel-body'"+">"+
-						    guesses+
-						  "</div>"+
-						"</div>"
+var html = "<p> Score </p>" +
+
+					"<p> correct: " + correct +"</p>"
+					+
+					"<p> incorrect: "+ incorrect +"</p>"
+					+
+
+					"<p>turns: " +turns +"</p>"
+					+
+					"<p>guesses: "+guesses+"</p>";
 
 			document.querySelector('#score').innerHTML = html;
 };
@@ -43,61 +40,15 @@ function endGame (arr1, arr2){
 	}
 	return true;
 }
-
-
-//Image================================================================
-function imageChange(incor){
-	switch (incor){
-		case 8:
-		var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman1.png'"+" alt="+"hangman1"+">";
-				document.querySelector('#hang').innerHTML = html;
-			break;
-		case 7:
-			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman2.png'"+" alt="+"hangman2"+">";
-				document.querySelector('#hang').innerHTML = html;
-			break;
-		case 6:
-			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman3.png'"+" alt="+"hangman3"+">";
-				document.querySelector('#hang').innerHTML = html;
-			break;
-		case 5:
-			var html ="<img class="+"'center-block' "+"src="+"'assets/images/hangman4.png'"+" alt="+"hangman4"+">";
-				document.querySelector('#hang').innerHTML = html;
-			break;
-		case 4:
-			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman5.png'"+" alt="+"hangman5"+">";
-				document.querySelector('#hang').innerHTML = html;
-			break;
-		case 3:
-			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman6.png'"+" alt="+"hangman6"+">";
-				document.querySelector('#hang').innerHTML = html;
-			break;
-		case 2:
-			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman7.png'"+" alt="+"hangman7"+">";
-				document.querySelector('#hang').innerHTML = html;
-			break;
-		case 1:
-			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman8.png'"+" alt="+"hangman8"+">";
-				document.querySelector('#hang').innerHTML = html;
-			break;
-		default:
-			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman9.png'"+" alt="+"hangman9"+">"+
-			"<p>Sorry you lost :(</p>" + "<p>Hit any key to play again!</p>";
-			document.querySelector('#hang').innerHTML = html;
-
-			
-		}
-	};
 //New Game============================================================
 function newGame(){
 
 	contGame = false;
 	turns = 0;
 	correct = 0;
-	incorrect= 8;
+	incorrect= 9;
 	guesses = [];
 	gameBoard=[];
-	imageChange(incorrect);
 
 	compChoice = wordLib[Math.round(Math.random() * (wordLib.length-1))];
 	lastWord=compChoice;
@@ -141,6 +92,63 @@ var html = "<p>"+ viewBoard + "</p>";
 document.querySelector('#board').innerHTML = html;
 
 gameSetup();
+//Image================================================================
+function imageChange(incor){
+	switch (incor){
+		case 7:
+			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman2.png'"+" alt="+"hangman2"+">";
+				document.querySelector('#hang').innerHTML = html;
+			break;
+		case 6:
+			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman3.png'"+" alt="+"hangman3"+">";
+				document.querySelector('#hang').innerHTML = html;
+			break;
+		case 5:
+			var html ="<img class="+"'center-block' "+"src="+"'assets/images/hangman4.png'"+" alt="+"hangman4"+">";
+				document.querySelector('#hang').innerHTML = html;
+			break;
+		case 4:
+			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman5.png'"+" alt="+"hangman5"+">";
+				document.querySelector('#hang').innerHTML = html;
+			break;
+		case 3:
+			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman6.png'"+" alt="+"hangman6"+">";
+				document.querySelector('#hang').innerHTML = html;
+			break;
+		case 2:
+			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman7.png'"+" alt="+"hangman7"+">";
+				document.querySelector('#hang').innerHTML = html;
+			break;
+		case 1:
+			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman8.png'"+" alt="+"hangman8"+">";
+				document.querySelector('#hang').innerHTML = html;
+			break;
+		default:
+			var html = "<img class="+"'center-block' "+"src="+"'assets/images/hangman9.png'"+" alt="+"hangman9"+">"+
+			"<p>Sorry you lost :(</p>" + "<p>Hit any key to play again!</p>";
+			document.querySelector('#hang').innerHTML = html;
+
+			if(incorrect < 1){
+				losses++;
+				console.log(wins);
+				var html= "<p>Wins: "+wins+"</p>"+
+						"<p>Losses: "+losses+"</p>";
+				document.querySelector('#record').innerHTML = html;
+
+				document.addEventListener("keydown",function(){
+					contGame=true;
+				});
+
+				if(incorrect<1 && contGame===true){
+					newGame();
+					document.addEventListener("keydown",function(){
+					contGame=false;
+					});
+
+				}
+				}
+		}
+	};
 
 // Main game==================================================
 
@@ -175,9 +183,9 @@ document.onkeyup = function() {
 				guesses.push(userGuess);
 				incorrect --;
 				turns ++;
-				imageChange(incorrect);
-
 				if(incorrect < 1){
+					var html = "<p>You Lose!</p>"+"<p>Press space to play again!</p>";
+				document.querySelector('.winner').innerHTML = html;
 				losses++;
 				console.log(wins);
 				var html= "<p>Wins: "+wins+"</p>"+
@@ -196,27 +204,6 @@ document.onkeyup = function() {
 
 				}
 				}
-				// if(incorrect < 1){
-				// 	var html = "<p>You Lose!</p>"+"<p>Press space to play again!</p>";
-				// document.querySelector('.winner').innerHTML = html;
-				// losses++;
-				// console.log(wins);
-				// var html= "<p>Wins: "+wins+"</p>"+
-				// 		"<p>Losses: "+losses+"</p>";
-				// document.querySelector('#record').innerHTML = html;
-
-				// document.addEventListener("keydown",function(){
-				// 	contGame=true;
-				// });
-
-				// if(incorrect<1 && contGame===true){
-				// 	newGame();
-				// 	document.addEventListener("keydown",function(){
-				// 	contGame=false;
-				// 	});
-
-				// }
-				// }
 			}//
 			gameSetup();
 
@@ -224,7 +211,7 @@ document.onkeyup = function() {
 				var html = "<h3>Congrats!</h3>"+
 				"<img class="+"'center-block' " + "src="+"'assets/images/big_winner.jpg'" + "alt="+"'hangman1'>"+
 				"<p>Press any key to play again!</p>";
-				document.querySelector('#hang').innerHTML = html;
+				document.querySelector('.winner').innerHTML = html;
 				console.log(wins);
 				var html= "<p>Wins: "+wins+"</p>"+
 						"<p>Losses: "+losses+"</p>";

@@ -1,11 +1,13 @@
 body{
 	background-color:#00bfff;
+	font-family: 'Indie Flower', cursive, Times, Arial;
 }
 
 .jumbotron{
 	text-align: center;
 	color: black;
-	background-image: url("../images/niceBG.jpg");
+	background: url(../images/zooBG.jpg);
+	background-size: 100% 100%;
 }
 
 #board{
@@ -29,4 +31,5 @@ footer{
 	text-align: center;
 	padding: 30px;
 	border:solid 1px black;
+	background: #4caf50;
 }
